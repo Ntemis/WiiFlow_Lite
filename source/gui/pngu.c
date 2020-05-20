@@ -776,7 +776,7 @@ int PNGU_DecodeToCMPR(IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffer)
 
 void user_error(png_structp png_ptr, png_const_charp c)
 {
-	longjmp(png_ptr->jmpbuf, 1);
+	longjmp(png_jmpbuf(png_ptr), 1);
 	gprintf("%s\n", c);
 }
 
@@ -1115,7 +1115,7 @@ int pngu_decode (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, PNGU_u32 stripAlph
 		return PNGU_INVALID_WIDTH_OR_HEIGHT;
 
 	// Support paletted images
-	if (ctx->prop.imgColorType == PNG_COLOR_TYPE_PALETTE)
+	if (ctx->prop.imgColorType == PNGU_COLOR_TYPE_PALETTE)
 		png_set_palette_to_rgb(ctx->png_ptr);
 
 	// Check if color type is supported by PNGU
