@@ -54,6 +54,7 @@ struct PluginOptions
 	vector<string> Args;
 	wstringEx DisplayName;
 	s8 boxMode;
+	bool state;
 };
 
 class Plugin
@@ -70,17 +71,16 @@ public:
 	int GetRomPartition(u8 pos);
 	const string& GetFileTypes(u8 pos);
 	wstringEx GetPluginName(u8 pos);
-	u32 getPluginMagic(u8 pos);
-	s8 GetPluginPosition(u32 magic);
+	u32 GetPluginMagic(u8 pos);
+	u8 GetPluginPosition(u32 magic);
 	s8 GetBoxMode(u8 pos);
 	
 	void init(const string& m_pluginsDir);
-	bool AddPlugin(Config &plugin);
+	void AddPlugin(Config &plugin);
 	void Cleanup();
-	void EndAdd();
-	bool GetEnableStatus(Config &cfg, u32 magic);
-	void SetEnablePlugin(Config &cfg, u8 pos, u8 ForceMode = 0);
-	const vector<bool> &GetEnabledPlugins(Config &cfg, u8 *num);
+	bool GetEnabledStatus(u8 pos);
+	void SetEnablePlugin(u8 pos, u8 ForceMode = 0);
+	const vector<bool> &GetEnabledPlugins(u8 *num);
 	bool PluginExist(u8 pos);
 	
 	vector<string> CreateArgs(const char *device, const char *path, 
@@ -91,9 +91,8 @@ public:
 private:
 	vector<PluginOptions> Plugins;
 	vector<bool> enabledPlugins;
-	s8 Plugin_Pos;
+	s16 Plugin_Pos;
 	string pluginsDir;
-	bool adding;
 };
 
 extern Plugin m_plugin;
